@@ -1,18 +1,25 @@
 using System;
-using Microsoft.Extensions.Configuration;
+using System.IO;
 using Models.Repository;
 using Xunit;
+using Microsoft.Extensions.Configuration.Json;
+using Microsoft.Extensions.Configuration;
 
-namespace ModelTests
+namespace Integration
 {
     public class Models
     {
-        private readonly IConfiguration iConfiguration;
 
         [Fact]
         public async System.Threading.Tasks.Task CanQueryDatabaseWithRepositoryAndDapperAsync()
         {
-            SensorsRepository sensorsRepo = new SensorsRepository(iConfiguration);
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+            IConfigurationRoot configuration = builder.Build();
+
+            SensorsRepository sensorsRepo = new SensorsRepository(configuration);
             var result = await sensorsRepo.GetById(1);
         }
     }

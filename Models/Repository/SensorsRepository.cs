@@ -19,7 +19,7 @@ namespace Models.Repository
             _config = config;
         }
 
-        public IDbConnection Connection => new SqlConnection(_config.GetConnectionString("MyConnectionString"));
+        public IDbConnection Connection => new SqlConnection(_config.GetConnectionString("Monitoring"));
 
         public async Task<Sensors> GetById(int id)
         {
