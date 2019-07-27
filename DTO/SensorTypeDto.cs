@@ -2,8 +2,9 @@
 
 namespace DTO
 {
-    public class SensorTypesDto
+    public class SensorTypeDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }

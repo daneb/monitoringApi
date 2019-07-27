@@ -24,7 +24,7 @@ namespace Models.Repository
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, UserId, ProjectId, PermissionContext, Permission from UserProjectPermission where ID = @ID";
+                string sQuery = "SELECT ID, UserId, ProjectId, PermissionContext, Permission from UserProjectPermissions where ID = @ID";
                 conn.Open();
                 var result = await conn.QueryAsync<UserProjectPermission>(sQuery, new { ID = id });
                 return result.AsList();
@@ -35,7 +35,7 @@ namespace Models.Repository
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, UserId, ProjectId, PermissionContext, Permission from UserProjectPermission";
+                string sQuery = "SELECT ID, UserId, ProjectId, PermissionContext, Permission from UserProjectPermissions";
                 conn.Open();
                 var result = await conn.QueryAsync<UserProjectPermission>(sQuery);
                 return result.AsList();

@@ -24,7 +24,7 @@ namespace Models.Repository
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, Name, Description from Project where ID = @ID";
+                string sQuery = "SELECT ID, Name, Description from Projects where ID = @ID";
                 conn.Open();
                 var result = await conn.QueryAsync<Project>(sQuery, new { ID = id });
                 return result.FirstOrDefault();
@@ -35,7 +35,7 @@ namespace Models.Repository
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, Name, Description from Project";
+                string sQuery = "SELECT ID, Name, Description from Projects";
                 conn.Open();
                 var result = await conn.QueryAsync<Project>(sQuery);
                 return result.AsList();

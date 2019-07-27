@@ -24,7 +24,7 @@ namespace Models.Repository
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, Email, PasswordHash, Name, Surname, IsAdmin from User where ID = @ID";
+                string sQuery = "SELECT ID, Email, PasswordHash, Name, Surname, IsAdmin from Users where ID = @ID";
                 conn.Open();
                 var result = await conn.QueryAsync<User>(sQuery, new { ID = id });
                 return result.FirstOrDefault();
@@ -35,7 +35,7 @@ namespace Models.Repository
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, Email, PasswordHash, Name, Surname, IsAdmin from User";
+                string sQuery = "SELECT ID, Email, PasswordHash, Name, Surname, IsAdmin from Users";
                 conn.Open();
                 var result = await conn.QueryAsync<User>(sQuery);
                 return result.AsList();

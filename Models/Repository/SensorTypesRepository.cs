@@ -27,7 +27,7 @@ namespace Models.Repository
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, Name, Description from SensorType where ID = @ID";
+                string sQuery = "SELECT ID, Name, Description from SensorTypes where ID = @ID";
                 conn.Open();
                 var result = await conn.QueryAsync<SensorType>(sQuery, new { ID = id });
                 return result.FirstOrDefault();
@@ -38,7 +38,7 @@ namespace Models.Repository
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, Name, Description from SensorType";
+                string sQuery = "SELECT ID, Name, Description from SensorTypes";
                 conn.Open();
                 var result = await conn.QueryAsync<SensorType>(sQuery);
                 return result.AsList();
@@ -47,32 +47,33 @@ namespace Models.Repository
 
         public async Task<int> Create(SensorType sensorType)
         {
-            try
+            using (IDbConnection conn = Connection)
             {
-                using (IDbConnection conn = Connection)
-                {
-                    conn.Open();
-                    var result = await conn.InsertAsync<SensorType>(sensorType);
-                    return result;
-                }
+                conn.Open();
+                var result = await conn.InsertAsync<SensorType>(sensorType);
+                return result;
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return 0;
-            }
-
-
         }
 
-        public async Task Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new System.NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                conn.Open();
+                var result = await conn.DeleteAsync(new SensorType { Id = id });
+                return result;
+            }
         }
 
-        public async Task Update(SensorType sensorType)
+        public async Task<bool> Update(SensorType sensorType)
         {
-            throw new System.NotImplementedException();
+
+            using (IDbConnection conn = Connection)
+            {
+                conn.Open();
+                var result = await conn.UpdateAsync<SensorType>(sensorType);
+                return result;
+            }
         }
     }
 }

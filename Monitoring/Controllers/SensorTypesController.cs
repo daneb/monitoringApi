@@ -50,9 +50,9 @@ namespace Monitoring.Controllers
 
         // POST: api/SensorType
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] SensorTypesDto sensorTypeDTO)
+        public async Task<IActionResult> Post([FromBody] SensorTypeDto sensorTypeDto)
         {
-            SensorType sensorType = _mapper.Map<SensorTypesDto,SensorType>(sensorTypeDTO);
+            SensorType sensorType = _mapper.Map<SensorTypeDto,SensorType>(sensorTypeDto);
             int result = await _sensorsTypeRepository.Create(sensorType);
 
             if (result == 0)
@@ -63,14 +63,27 @@ namespace Monitoring.Controllers
 
         // PUT: api/SensorType/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] SensorTypeDto sensorTypeDto)
         {
+            SensorType sensorType = _mapper.Map<SensorTypeDto, SensorType>(sensorTypeDto);
+            bool success = await _sensorsTypeRepository.Update(sensorType);
+
+            if (!success)
+                return UnprocessableEntity();
+
+            return Ok();
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            bool success = await _sensorsTypeRepository.Delete(id);
+
+            if (!success)
+                return NotFound();
+
+            return Ok();
         }
     }
 

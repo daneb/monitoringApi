@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using DTO;
 
@@ -9,7 +10,7 @@ namespace Models.Interfaces
         Task<SensorType> GetById(int id);
         Task<List<SensorType>> GetAll();
         Task<int> Create(SensorType sensorType);
-        Task Delete(int id);
-        Task Update(SensorType sensorType);
+        Task<bool> Delete(int id);
+        Task<bool> Update(SensorType sensorType);
     }
 }
