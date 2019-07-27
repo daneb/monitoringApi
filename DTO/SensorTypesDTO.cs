@@ -1,8 +1,9 @@
-﻿namespace Models
+﻿using System;
+
+namespace DTO
 {
-    public class Projects
+    public class SensorTypesDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }

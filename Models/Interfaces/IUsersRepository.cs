@@ -5,10 +5,10 @@ namespace Models.Interfaces
 {
     public interface IUsersRepository
     {
-        Task<Users> GetById(int id);
-        Task<List<Users>> GetAll();
-        Task Create(Users users);
+        Task<User> GetById(int id);
+        Task<List<User>> GetAll();
+        Task Create(User user);
         Task Delete(int id);
-        Task Update(Users users);
+        Task Update(User user);
     }
 }

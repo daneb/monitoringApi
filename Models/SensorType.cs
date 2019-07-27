@@ -1,10 +1,10 @@
 ﻿using System.Net.Cache;
+using Dapper.Contrib.Extensions;
 
 namespace Models
 {
-    public class SensorTypes
+    public class SensorType
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }

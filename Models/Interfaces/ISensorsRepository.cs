@@ -5,11 +5,11 @@ namespace Models.Interfaces
 {
     public interface ISensorsRepository
     {
-        Task<Sensors> GetById(int id);
-        Task<List<Sensors>> GetAll();
-        Task Create(Sensors sensor);
+        Task<Sensor> GetById(int id);
+        Task<List<Sensor>> GetAll();
+        Task Create(Sensor sensor);
         Task Delete(int id);
-        Task Update(Sensors sensors);
+        Task Update(Sensor sensor);
 
     }
 }

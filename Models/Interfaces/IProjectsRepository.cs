@@ -5,10 +5,10 @@ namespace Models.Interfaces
 {
     public interface IProjectsRepository
     {
-        Task<Projects> GetById(int id);
-        Task<List<Projects>> GetAll();
-        Task Create(Projects projects);
+        Task<Project> GetById(int id);
+        Task<List<Project>> GetAll();
+        Task Create(Project project);
         Task Delete(int id);
-        Task Update(Projects projects);
+        Task Update(Project project);
     }
 }

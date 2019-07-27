@@ -20,29 +20,29 @@ namespace Models.Repository
 
         public IDbConnection Connection => new SqlConnection(_config.GetConnectionString("Monitoring"));
 
-        public async Task<Projects> GetById(int id)
+        public async Task<Project> GetById(int id)
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, Name, Description from Projects where ID = @ID";
+                string sQuery = "SELECT ID, Name, Description from Project where ID = @ID";
                 conn.Open();
-                var result = await conn.QueryAsync<Projects>(sQuery, new { ID = id });
+                var result = await conn.QueryAsync<Project>(sQuery, new { ID = id });
                 return result.FirstOrDefault();
             }
         }
 
-        public async Task<List<Projects>> GetAll()
+        public async Task<List<Project>> GetAll()
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, Name, Description from Projects";
+                string sQuery = "SELECT ID, Name, Description from Project";
                 conn.Open();
-                var result = await conn.QueryAsync<Projects>(sQuery);
+                var result = await conn.QueryAsync<Project>(sQuery);
                 return result.AsList();
             }
         }
 
-        public async Task Create(Projects projects)
+        public async Task Create(Project project)
         {
             throw new System.NotImplementedException();
         }
@@ -52,7 +52,7 @@ namespace Models.Repository
             throw new System.NotImplementedException();
         }
 
-        public async Task Update(Projects projects)
+        public async Task Update(Project project)
         {
             throw new System.NotImplementedException();
         }

@@ -21,29 +21,29 @@ namespace Models.Repository
 
         public IDbConnection Connection => new SqlConnection(_config.GetConnectionString("Monitoring"));
 
-        public async Task<Sensors> GetById(int id)
+        public async Task<Sensor> GetById(int id)
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, ProjectId, SensorTypeId, Name, Description from Sensors where ID = @ID";
+                string sQuery = "SELECT ID, ProjectId, SensorTypeId, Name, Description from Sensor where ID = @ID";
                 conn.Open();
-                var result = await conn.QueryAsync<Sensors>(sQuery, new {ID = id});
+                var result = await conn.QueryAsync<Sensor>(sQuery, new {ID = id});
                 return result.FirstOrDefault();
             }
         }
 
-        public async Task<List<Sensors>> GetAll()
+        public async Task<List<Sensor>> GetAll()
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, ProjectId, SensorTypeId, Name, Description from Sensors";
+                string sQuery = "SELECT ID, ProjectId, SensorTypeId, Name, Description from Sensor";
                 conn.Open();
-                var result = await conn.QueryAsync<Sensors>(sQuery);
-                return result.AsList<Sensors>();
+                var result = await conn.QueryAsync<Sensor>(sQuery);
+                return result.AsList<Sensor>();
             }
         }
 
-        public async Task Create(Sensors sensor)
+        public async Task Create(Sensor sensor)
         {
             throw new System.NotImplementedException();
         }
@@ -53,12 +53,12 @@ namespace Models.Repository
             throw new System.NotImplementedException();
         }
 
-        public async Task Update(Sensors sensors)
+        public async Task Update(Sensor sensor)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<List<Sensors>> GetByName(string Name)
+        public Task<List<Sensor>> GetByName(string Name)
         {
             throw new System.NotImplementedException();
         }

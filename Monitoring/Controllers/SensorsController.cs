@@ -25,7 +25,7 @@ namespace Monitoring.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSensors()
         {
-            List<Sensors> sensors = await _sensorsRepository.GetAll();
+            List<Sensor> sensors = await _sensorsRepository.GetAll();
 
             if (sensors == null)
                 return BadRequest();
@@ -35,9 +35,9 @@ namespace Monitoring.Controllers
 
         // GET api/sensors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Sensors>> GetSensor(int id)
+        public async Task<ActionResult<Sensor>> GetSensor(int id)
         {
-            Sensors sensor = await _sensorsRepository.GetById(id);
+            Sensor sensor = await _sensorsRepository.GetById(id);
 
             if (sensor == null)
                 return NotFound();

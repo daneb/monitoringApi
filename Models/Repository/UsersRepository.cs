@@ -20,29 +20,29 @@ namespace Models.Repository
 
         public IDbConnection Connection => new SqlConnection(_config.GetConnectionString("Monitoring"));
 
-        public async Task<Users> GetById(int id)
+        public async Task<User> GetById(int id)
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, Email, PasswordHash, Name, Surname, IsAdmin from Users where ID = @ID";
+                string sQuery = "SELECT ID, Email, PasswordHash, Name, Surname, IsAdmin from User where ID = @ID";
                 conn.Open();
-                var result = await conn.QueryAsync<Users>(sQuery, new { ID = id });
+                var result = await conn.QueryAsync<User>(sQuery, new { ID = id });
                 return result.FirstOrDefault();
             }
         }
 
-        public async Task<List<Users>> GetAll()
+        public async Task<List<User>> GetAll()
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, Email, PasswordHash, Name, Surname, IsAdmin from Users";
+                string sQuery = "SELECT ID, Email, PasswordHash, Name, Surname, IsAdmin from User";
                 conn.Open();
-                var result = await conn.QueryAsync<Users>(sQuery);
+                var result = await conn.QueryAsync<User>(sQuery);
                 return result.AsList();
             }
         }
 
-        public async Task Create(Users users)
+        public async Task Create(User user)
         {
             throw new System.NotImplementedException();
         }
@@ -52,7 +52,7 @@ namespace Models.Repository
             throw new System.NotImplementedException();
         }
 
-        public async Task Update(Users users)
+        public async Task Update(User user)
         {
             throw new System.NotImplementedException();
         }

@@ -1,8 +1,7 @@
 ﻿namespace Models
 {
-    public class UserProjectPermissions
+    public class UserProjectPermission
     {
-        public int  Id { get; set; }
         public int UserId { get; set; }
         public int ProjectId { get; set; }
         public string PermissionContext { get; set; }

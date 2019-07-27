@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -14,13 +16,15 @@ namespace Monitoring.Controllers
     public class SensorTypesController : ControllerBase
     {
         private readonly ISensorTypesRepository _sensorsTypeRepository;
+        private readonly IMapper _mapper;
 
-        public SensorTypesController(ISensorTypesRepository iSensorsRepository)
+        public SensorTypesController(ISensorTypesRepository iSensorsRepository, IMapper mapper)
         {
             _sensorsTypeRepository = iSensorsRepository;
+            _mapper = mapper;
         }
 
-        // GET: api/SensorTypes
+        // GET: api/SensorType
         [HttpGet]
         public async Task<IActionResult> GetSensorTypes()
         {
@@ -32,9 +36,9 @@ namespace Monitoring.Controllers
             return Ok(sensorTypes);
         }
 
-        // GET: api/SensorTypes/5
+        // GET: api/SensorType/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<SensorTypes>> GetSensorTypeById(int id)
+        public async Task<IActionResult> GetSensorTypeById(int id)
         {
             var sensorType = await _sensorsTypeRepository.GetById(id);
 
@@ -44,14 +48,20 @@ namespace Monitoring.Controllers
             return Ok(sensorType);
         }
 
-        // POST: api/SensorTypes
+        // POST: api/SensorType
         [HttpPost]
-        public void Post([FromBody] SensorTypes sensorType)
+        public async Task<IActionResult> Post([FromBody] SensorTypesDto sensorTypeDTO)
         {
+            SensorType sensorType = _mapper.Map<SensorTypesDto,SensorType>(sensorTypeDTO);
+            int result = await _sensorsTypeRepository.Create(sensorType);
 
+            if (result == 0)
+                return UnprocessableEntity();
+
+            return Ok();
         }
 
-        // PUT: api/SensorTypes/5
+        // PUT: api/SensorType/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {

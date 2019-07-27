@@ -20,29 +20,29 @@ namespace Models.Repository
 
         public IDbConnection Connection => new SqlConnection(_config.GetConnectionString("Monitoring"));
 
-        public async Task<List<UserProjectPermissions>> GetById(int id)
+        public async Task<List<UserProjectPermission>> GetById(int id)
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, UserId, ProjectId, PermissionContext, Permission from UserProjectPermissions where ID = @ID";
+                string sQuery = "SELECT ID, UserId, ProjectId, PermissionContext, Permission from UserProjectPermission where ID = @ID";
                 conn.Open();
-                var result = await conn.QueryAsync<UserProjectPermissions>(sQuery, new { ID = id });
+                var result = await conn.QueryAsync<UserProjectPermission>(sQuery, new { ID = id });
                 return result.AsList();
             }
         }
 
-        public async Task<List<UserProjectPermissions>> GetAll()
+        public async Task<List<UserProjectPermission>> GetAll()
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, UserId, ProjectId, PermissionContext, Permission from UserProjectPermissions";
+                string sQuery = "SELECT ID, UserId, ProjectId, PermissionContext, Permission from UserProjectPermission";
                 conn.Open();
-                var result = await conn.QueryAsync<UserProjectPermissions>(sQuery);
+                var result = await conn.QueryAsync<UserProjectPermission>(sQuery);
                 return result.AsList();
             }
         }
 
-        public async Task Create(UserProjectPermissions projects)
+        public async Task Create(UserProjectPermission projects)
         {
             throw new System.NotImplementedException();
         }
@@ -52,7 +52,7 @@ namespace Models.Repository
             throw new System.NotImplementedException();
         }
 
-        public async Task Update(UserProjectPermissions projects)
+        public async Task Update(UserProjectPermission projects)
         {
             throw new System.NotImplementedException();
         }

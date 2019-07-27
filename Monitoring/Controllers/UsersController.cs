@@ -20,11 +20,11 @@ namespace Monitoring.Controllers
             _iUsersRepository = iUsersRepository;
         }
 
-        // GET: api/Users
+        // GET: api/User
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            List<Users> users = await _iUsersRepository.GetAll();
+            List<User> users = await _iUsersRepository.GetAll();
 
             if (users == null)
                 return BadRequest();
@@ -32,11 +32,11 @@ namespace Monitoring.Controllers
             return Ok(users);
         }
 
-        // GET: api/Users/5
+        // GET: api/User/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
-            Users user = await _iUsersRepository.GetById(id);
+            User user = await _iUsersRepository.GetById(id);
 
             if (user == null)
                 return NotFound();
@@ -44,13 +44,13 @@ namespace Monitoring.Controllers
             return Ok(user);
         }
 
-        // POST: api/Users
+        // POST: api/User
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/Users/5
+        // PUT: api/User/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {

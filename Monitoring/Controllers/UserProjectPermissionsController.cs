@@ -21,9 +21,9 @@ namespace Monitoring.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<UserProjectPermissions>>> GetAllUserProjectPermissions()
+        public async Task<ActionResult<List<UserProjectPermission>>> GetAllUserProjectPermissions()
         {
-            List<UserProjectPermissions> userProjectPermissions = await _iUsersProjectPermissionsRepository.GetAll();
+            List<UserProjectPermission> userProjectPermissions = await _iUsersProjectPermissionsRepository.GetAll();
 
             if (userProjectPermissions == null)
                 return BadRequest();
@@ -31,11 +31,11 @@ namespace Monitoring.Controllers
             return Ok(userProjectPermissions);
         }
 
-        // GET: api/UserProjectPermissions/5
+        // GET: api/UserProjectPermission/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<UserProjectPermissions>>> GetUserProjectPermissions(int id)
+        public async Task<ActionResult<List<UserProjectPermission>>> GetUserProjectPermissions(int id)
         {
-            List<UserProjectPermissions> userProjectPermissions = await _iUsersProjectPermissionsRepository.GetById(id);
+            List<UserProjectPermission> userProjectPermissions = await _iUsersProjectPermissionsRepository.GetById(id);
 
             if (userProjectPermissions == null)
                 return NotFound();
@@ -43,13 +43,13 @@ namespace Monitoring.Controllers
             return Ok(userProjectPermissions);
         }
 
-        // POST: api/UserProjectPermissions
+        // POST: api/UserProjectPermission
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/UserProjectPermissions/5
+        // PUT: api/UserProjectPermission/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {

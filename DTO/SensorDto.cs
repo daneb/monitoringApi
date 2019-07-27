@@ -1,10 +1,7 @@
-﻿using System.Reflection;
-
-namespace Models
+﻿namespace DTO
 {
-    public class Sensors
+    public class SensorDto
     {
-        public int ID { get; set; }
         public int ProjectId { get; set; }
         public int SensorTypeId { get; set; }
         public string Name { get; set; }

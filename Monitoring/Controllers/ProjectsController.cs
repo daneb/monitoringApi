@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Models;
 using Models.Interfaces;
+using Project = Models.Project;
 
 namespace Monitoring.Controllers
 {
@@ -21,11 +22,11 @@ namespace Monitoring.Controllers
             _projectsRepository = projectsRepository;
         }
 
-        // GET: api/Projects
+        // GET: api/Project
         [HttpGet]
         public async Task<IActionResult> GetProjects()
         {
-            List<Projects> projects = await _projectsRepository.GetAll();
+            List<Project> projects = await _projectsRepository.GetAll();
 
             if (projects == null)
                 return BadRequest();
@@ -33,11 +34,11 @@ namespace Monitoring.Controllers
             return Ok(projects);
         }
 
-        // GET: api/Projects/5
+        // GET: api/Project/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProjectById(int id)
         {
-            Projects project = await _projectsRepository.GetById(id);
+            Project project = await _projectsRepository.GetById(id);
 
             if (project == null)
                 return NotFound();
@@ -45,13 +46,13 @@ namespace Monitoring.Controllers
             return Ok(project);
         }
 
-        // POST: api/Projects
+        // POST: api/Project
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/Projects/5
+        // PUT: api/Project/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
