@@ -10,7 +10,7 @@ using Models.Interfaces;
 
 namespace Models.Repository
 {
-    public class SensorsRepository : ISensors
+    public class SensorsRepository : ISensorsRepository
     {
         private readonly IConfiguration _config;
 
@@ -34,7 +34,13 @@ namespace Models.Repository
 
         public async Task<List<Sensors>> GetAll()
         {
-            throw new System.NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "SELECT ID, ProjectId, SensorTypeId, Name, Description from Sensors";
+                conn.Open();
+                var result = await conn.QueryAsync<Sensors>(sQuery);
+                return result.AsList<Sensors>();
+            }
         }
 
         public async Task Create(Sensors sensor)

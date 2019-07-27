@@ -9,7 +9,7 @@ using Models.Interfaces;
 
 namespace Models.Repository
 {
-    public class SensorTypesRepository : ISensorTypes
+    public class SensorTypesRepository : ISensorTypesRepository
     {
         private readonly IConfiguration _config;
 

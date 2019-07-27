@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Models.Interfaces
 {
-    public interface ISensors
+    public interface ISensorsRepository
     {
         Task<Sensors> GetById(int id);
         Task<List<Sensors>> GetAll();

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Models.Interfaces
 {
-    public interface IUserProjectPermissions
+    public interface IUserProjectPermissionsRepository
     {
         Task<UserProjectPermissions> GetById(int id);
         Task<List<UserProjectPermissions>> GetAll();

@@ -11,36 +11,36 @@ namespace Monitoring.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SensorTypesController : ControllerBase
+    public class UserProjectPermissionsController : ControllerBase
     {
-        private readonly ISensorTypesRepository _sensorsTypeRepository;
+        private readonly IUserProjectPermissionsRepository _iUsersProjectPermissionsRepository;
 
-        public SensorTypesController(ISensorTypesRepository iSensorsRepository)
+        public UserProjectPermissionsController(IUserProjectPermissionsRepository userProjectPermissionsRepository)
         {
-            _sensorsTypeRepository = iSensorsRepository;
+            _iUsersProjectPermissionsRepository = userProjectPermissionsRepository;
         }
 
-        // GET: api/SensorTypes
+        // GET: api/UserProjectPermissions
         //[HttpGet]
         //public IEnumerable<string> Get()
         //{
         //    return new string[] { "value1", "value2" };
         //}
 
-        // GET: api/SensorTypes/5
+        // GET: api/UserProjectPermissions/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<SensorTypes>> GetSensorTypeById(int id)
+        public async Task<ActionResult<UserProjectPermissions>> GetUserProjectPermissions(int id)
         {
-            return await _sensorsTypeRepository.GetById(id);
+            return await _iUsersProjectPermissionsRepository.GetById(id);
         }
 
-        // POST: api/SensorTypes
+        // POST: api/UserProjectPermissions
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/SensorTypes/5
+        // PUT: api/UserProjectPermissions/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
@@ -52,5 +52,4 @@ namespace Monitoring.Controllers
         {
         }
     }
-
 }

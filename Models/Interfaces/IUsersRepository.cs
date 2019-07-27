@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Models.Interfaces
 {
-    public interface IUsers
+    public interface IUsersRepository
     {
         Task<Users> GetById(int id);
         Task<List<Users>> GetAll();

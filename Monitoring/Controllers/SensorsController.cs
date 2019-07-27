@@ -21,16 +21,16 @@ namespace Monitoring.Controllers
             _sensorsRepository = iSensorsRepository;
         }
 
-        // GET api/sensors
+        //GET api/sensors
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<ActionResult<List<Sensors>>> GetSensors()
         {
-            return new string[] { "value1", "value2" };
+            return await _sensorsRepository.GetAll();
         }
 
         // GET api/sensors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Sensors>> Get(int id)
+        public async Task<ActionResult<Sensors>> GetSensor(int id)
         {
             return await _sensorsRepository.GetById(id);
         }

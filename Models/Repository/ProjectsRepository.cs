@@ -9,7 +9,7 @@ using Models.Interfaces;
 
 namespace Models.Repository
 {
-    public class ProjectsRepository : IProjects
+    public class ProjectsRepository : IProjectsRepository
     {
         private readonly IConfiguration _config;
 

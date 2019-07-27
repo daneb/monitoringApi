@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Models.Interfaces
 {
-    public interface IProjects
+    public interface IProjectsRepository
     {
         Task<Projects> GetById(int id);
         Task<List<Projects>> GetAll();

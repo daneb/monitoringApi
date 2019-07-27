@@ -11,36 +11,36 @@ namespace Monitoring.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SensorTypesController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        private readonly ISensorTypesRepository _sensorsTypeRepository;
+        private readonly IUsersRepository _iUsersRepository;
 
-        public SensorTypesController(ISensorTypesRepository iSensorsRepository)
+        public UsersController(IUsersRepository iUsersRepository)
         {
-            _sensorsTypeRepository = iSensorsRepository;
+            _iUsersRepository = iUsersRepository;
         }
 
-        // GET: api/SensorTypes
+        // GET: api/Users
         //[HttpGet]
         //public IEnumerable<string> Get()
         //{
         //    return new string[] { "value1", "value2" };
         //}
 
-        // GET: api/SensorTypes/5
+        // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<SensorTypes>> GetSensorTypeById(int id)
+        public async Task<ActionResult<Users>> GetUser(int id)
         {
-            return await _sensorsTypeRepository.GetById(id);
+            return await _iUsersRepository.GetById(id);
         }
 
-        // POST: api/SensorTypes
+        // POST: api/Users
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/SensorTypes/5
+        // PUT: api/Users/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
@@ -52,5 +52,4 @@ namespace Monitoring.Controllers
         {
         }
     }
-
 }

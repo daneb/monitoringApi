@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Models;
 using Models.Interfaces;
 
@@ -11,36 +12,36 @@ namespace Monitoring.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SensorTypesController : ControllerBase
+    public class ProjectsController : ControllerBase
     {
-        private readonly ISensorTypesRepository _sensorsTypeRepository;
+        private readonly IProjectsRepository _projectsRepository;
 
-        public SensorTypesController(ISensorTypesRepository iSensorsRepository)
+        public ProjectsController(IProjectsRepository projectsRepository)
         {
-            _sensorsTypeRepository = iSensorsRepository;
+            _projectsRepository = projectsRepository;
         }
-
-        // GET: api/SensorTypes
+        
+        // GET: api/Projects
         //[HttpGet]
         //public IEnumerable<string> Get()
         //{
         //    return new string[] { "value1", "value2" };
         //}
 
-        // GET: api/SensorTypes/5
+        // GET: api/Projects/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<SensorTypes>> GetSensorTypeById(int id)
+        public async Task<ActionResult<Projects>> GetProjectById(int id)
         {
-            return await _sensorsTypeRepository.GetById(id);
+            return await _projectsRepository.GetById(id);
         }
 
-        // POST: api/SensorTypes
+        // POST: api/Projects
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/SensorTypes/5
+        // PUT: api/Projects/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
@@ -52,5 +53,4 @@ namespace Monitoring.Controllers
         {
         }
     }
-
 }

@@ -28,6 +28,10 @@ namespace Monitoring
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ISensorsRepository>(provider => new SensorsRepository(Configuration));
+            services.AddTransient<ISensorTypesRepository>(provider => new SensorTypesRepository(Configuration));
+            services.AddTransient<IProjectsRepository>(provider => new ProjectsRepository(Configuration));
+            services.AddTransient<IUserProjectPermissionsRepository>(provider => new UserProjectPermissionsRepository(Configuration));
+            services.AddTransient<IUsersRepository>(provider => new UsersRepository(Configuration));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
