@@ -20,20 +20,15 @@ namespace Models.Repository
 
         public IDbConnection Connection => new SqlConnection(_config.GetConnectionString("Monitoring"));
 
-        public async Task<UserProjectPermissions> GetById(int id)
+        public async Task<List<UserProjectPermissions>> GetById(int id)
         {
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "SELECT ID, UserId, ProjectId, PermissionContext, Permission from UserProjectPermissions where ID = @ID";
                 conn.Open();
                 var result = await conn.QueryAsync<UserProjectPermissions>(sQuery, new { ID = id });
-                return result.FirstOrDefault();
+                return result.AsList();
             }
-        }
-
-        public async Task<List<UserProjectPermissions>> GetAll()
-        {
-            throw new System.NotImplementedException();
         }
 
         public async Task Create(UserProjectPermissions projects)

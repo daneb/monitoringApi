@@ -20,16 +20,10 @@ namespace Monitoring.Controllers
             _iUsersProjectPermissionsRepository = userProjectPermissionsRepository;
         }
 
-        // GET: api/UserProjectPermissions
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
 
         // GET: api/UserProjectPermissions/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserProjectPermissions>> GetUserProjectPermissions(int id)
+        public async Task<ActionResult<List<UserProjectPermissions>>> GetUserProjectPermissions(int id)
         {
             return await _iUsersProjectPermissionsRepository.GetById(id);
         }

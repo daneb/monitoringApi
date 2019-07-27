@@ -33,7 +33,13 @@ namespace Models.Repository
 
         public async Task<List<SensorTypes>> GetAll()
         {
-            throw new System.NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "SELECT ID, Name, Description from SensorTypes";
+                conn.Open();
+                var result = await conn.QueryAsync<SensorTypes>(sQuery);
+                return result.AsList();
+            }
         }
 
         public async Task Create(SensorTypes sensorTypes)

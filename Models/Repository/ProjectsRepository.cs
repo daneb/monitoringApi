@@ -33,7 +33,13 @@ namespace Models.Repository
 
         public async Task<List<Projects>> GetAll()
         {
-            throw new System.NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "SELECT ID, Name, Description from Projects";
+                conn.Open();
+                var result = await conn.QueryAsync<Projects>(sQuery);
+                return result.AsList();
+            }
         }
 
         public async Task Create(Projects projects)

@@ -21,11 +21,11 @@ namespace Monitoring.Controllers
         }
 
         // GET: api/Users
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        [HttpGet]
+        public async Task<List<Users>> GetUsers()
+        {
+            return await _iUsersRepository.GetAll();
+        }
 
         // GET: api/Users/5
         [HttpGet("{id}")]

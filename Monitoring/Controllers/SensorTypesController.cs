@@ -21,11 +21,11 @@ namespace Monitoring.Controllers
         }
 
         // GET: api/SensorTypes
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        [HttpGet]
+        public async Task<List<SensorTypes>> GetSensorTypes()
+        {
+            return await _sensorsTypeRepository.GetAll();
+        }
 
         // GET: api/SensorTypes/5
         [HttpGet("{id}")]

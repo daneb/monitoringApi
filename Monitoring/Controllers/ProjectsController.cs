@@ -20,13 +20,13 @@ namespace Monitoring.Controllers
         {
             _projectsRepository = projectsRepository;
         }
-        
+
         // GET: api/Projects
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        [HttpGet]
+        public async Task<List<Projects>> GetProjects()
+        {
+            return await _projectsRepository.GetAll();
+        }
 
         // GET: api/Projects/5
         [HttpGet("{id}")]
