@@ -22,16 +22,26 @@ namespace Monitoring.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<List<Users>> GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-            return await _iUsersRepository.GetAll();
+            List<Users> users = await _iUsersRepository.GetAll();
+
+            if (users == null)
+                return BadRequest();
+
+            return Ok(users);
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Users>> GetUser(int id)
+        public async Task<IActionResult> GetUser(int id)
         {
-            return await _iUsersRepository.GetById(id);
+            Users user = await _iUsersRepository.GetById(id);
+
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
         }
 
         // POST: api/Users

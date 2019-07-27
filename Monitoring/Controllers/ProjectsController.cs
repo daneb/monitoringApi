@@ -23,16 +23,26 @@ namespace Monitoring.Controllers
 
         // GET: api/Projects
         [HttpGet]
-        public async Task<List<Projects>> GetProjects()
+        public async Task<IActionResult> GetProjects()
         {
-            return await _projectsRepository.GetAll();
+            List<Projects> projects = await _projectsRepository.GetAll();
+
+            if (projects == null)
+                return BadRequest();
+
+            return Ok(projects);
         }
 
         // GET: api/Projects/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Projects>> GetProjectById(int id)
+        public async Task<IActionResult> GetProjectById(int id)
         {
-            return await _projectsRepository.GetById(id);
+            Projects project = await _projectsRepository.GetById(id);
+
+            if (project == null)
+                return NotFound();
+
+            return Ok(project);
         }
 
         // POST: api/Projects

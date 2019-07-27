@@ -23,14 +23,24 @@ namespace Monitoring.Controllers
         [HttpGet]
         public async Task<ActionResult<List<UserProjectPermissions>>> GetAllUserProjectPermissions()
         {
-            return await _iUsersProjectPermissionsRepository.GetAll();
+            List<UserProjectPermissions> userProjectPermissions = await _iUsersProjectPermissionsRepository.GetAll();
+
+            if (userProjectPermissions == null)
+                return BadRequest();
+
+            return Ok(userProjectPermissions);
         }
 
         // GET: api/UserProjectPermissions/5
         [HttpGet("{id}")]
         public async Task<ActionResult<List<UserProjectPermissions>>> GetUserProjectPermissions(int id)
         {
-            return await _iUsersProjectPermissionsRepository.GetById(id);
+            List<UserProjectPermissions> userProjectPermissions = await _iUsersProjectPermissionsRepository.GetById(id);
+
+            if (userProjectPermissions == null)
+                return NotFound();
+
+            return Ok(userProjectPermissions);
         }
 
         // POST: api/UserProjectPermissions

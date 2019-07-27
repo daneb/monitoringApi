@@ -22,22 +22,33 @@ namespace Monitoring.Controllers
 
         // GET: api/SensorTypes
         [HttpGet]
-        public async Task<List<SensorTypes>> GetSensorTypes()
+        public async Task<IActionResult> GetSensorTypes()
         {
-            return await _sensorsTypeRepository.GetAll();
+            var sensorTypes = await _sensorsTypeRepository.GetAll();
+
+            if (sensorTypes == null)
+                return BadRequest();
+
+            return Ok(sensorTypes);
         }
 
         // GET: api/SensorTypes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SensorTypes>> GetSensorTypeById(int id)
         {
-            return await _sensorsTypeRepository.GetById(id);
+            var sensorType = await _sensorsTypeRepository.GetById(id);
+
+            if (sensorType == null)
+                return NotFound();
+
+            return Ok(sensorType);
         }
 
         // POST: api/SensorTypes
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] SensorTypes sensorType)
         {
+
         }
 
         // PUT: api/SensorTypes/5

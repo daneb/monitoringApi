@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using Dapper.Contrib.Extensions;
 using Microsoft.Extensions.Configuration;
 using Models.Interfaces;
 
@@ -44,7 +45,11 @@ namespace Models.Repository
 
         public async Task Create(SensorTypes sensorTypes)
         {
-            throw new System.NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                conn.Open();
+                var result = await conn.InsertAsync(sensorTypes);
+            }
         }
 
         public async Task Delete(int id)
