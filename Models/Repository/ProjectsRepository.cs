@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using Dapper.Contrib.Extensions;
 using Microsoft.Extensions.Configuration;
 using Models.Interfaces;
 
@@ -42,19 +43,34 @@ namespace Models.Repository
             }
         }
 
-        public async Task Create(Project project)
+        public async Task<int> Create(Project project)
         {
-            throw new System.NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                conn.Open();
+                var result = await conn.InsertAsync<Project>(project);
+                return result;
+            }
         }
 
-        public async Task Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new System.NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                conn.Open();
+                var result = await conn.DeleteAsync(new Project { Id = id });
+                return result;
+            }
         }
 
-        public async Task Update(Project project)
+        public async Task<bool> Update(Project project)
         {
-            throw new System.NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                conn.Open();
+                var result = await conn.UpdateAsync<Project>(project);
+                return result;
+            }
         }
     }
 }
