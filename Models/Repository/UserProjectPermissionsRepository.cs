@@ -31,6 +31,17 @@ namespace Models.Repository
             }
         }
 
+        public async Task<List<UserProjectPermissions>> GetAll()
+        {
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "SELECT ID, UserId, ProjectId, PermissionContext, Permission from UserProjectPermissions";
+                conn.Open();
+                var result = await conn.QueryAsync<UserProjectPermissions>(sQuery);
+                return result.AsList();
+            }
+        }
+
         public async Task Create(UserProjectPermissions projects)
         {
             throw new System.NotImplementedException();

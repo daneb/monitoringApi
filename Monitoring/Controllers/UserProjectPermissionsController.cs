@@ -20,6 +20,11 @@ namespace Monitoring.Controllers
             _iUsersProjectPermissionsRepository = userProjectPermissionsRepository;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<UserProjectPermissions>>> GetAllUserProjectPermissions()
+        {
+            return await _iUsersProjectPermissionsRepository.GetAll();
+        }
 
         // GET: api/UserProjectPermissions/5
         [HttpGet("{id}")]

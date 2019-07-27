@@ -9,5 +9,6 @@ namespace Models.Interfaces
         Task Create(UserProjectPermissions projects);
         Task Delete(int id);
         Task Update(UserProjectPermissions projects);
+        Task<List<UserProjectPermissions>> GetAll();
     }
 }
