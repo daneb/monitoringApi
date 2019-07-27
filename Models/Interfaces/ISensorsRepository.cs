@@ -6,6 +6,10 @@ namespace Models.Interfaces
     public interface ISensorsRepository
     {
         Task<Sensors> GetById(int id);
-        Task<List<Sensors>> GetByName(string Name);
+        Task<List<Sensors>> GetAll();
+        Task Create(Sensors sensor);
+        Task Delete(int id);
+        Task Update(Sensors sensors);
+
     }
 }

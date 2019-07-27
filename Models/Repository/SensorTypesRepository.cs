@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -10,34 +9,34 @@ using Models.Interfaces;
 
 namespace Models.Repository
 {
-    public class SensorsRepository : ISensorsRepository
+    public class SensorTypesRepository : ISensorTypes
     {
         private readonly IConfiguration _config;
 
-        public SensorsRepository(IConfiguration config)
+        public SensorTypesRepository(IConfiguration config)
         {
             _config = config;
         }
 
         public IDbConnection Connection => new SqlConnection(_config.GetConnectionString("Monitoring"));
 
-        public async Task<Sensors> GetById(int id)
+        public async Task<SensorTypes> GetById(int id)
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT ID, ProjectId, SensorTypeId, Name, Description from Sensors where ID = @ID";
+                string sQuery = "SELECT ID, Name, Description from SensorTypes where ID = @ID";
                 conn.Open();
-                var result = await conn.QueryAsync<Sensors>(sQuery, new {ID = id});
+                var result = await conn.QueryAsync<SensorTypes>(sQuery, new { ID = id });
                 return result.FirstOrDefault();
             }
         }
 
-        public async Task<List<Sensors>> GetAll()
+        public async Task<List<SensorTypes>> GetAll()
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task Create(Sensors sensor)
+        public async Task Create(SensorTypes sensorTypes)
         {
             throw new System.NotImplementedException();
         }
@@ -47,12 +46,7 @@ namespace Models.Repository
             throw new System.NotImplementedException();
         }
 
-        public async Task Update(Sensors sensors)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<List<Sensors>> GetByName(string Name)
+        public async Task Update(SensorTypes sensorTypes)
         {
             throw new System.NotImplementedException();
         }
