@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -13,52 +15,79 @@ namespace Monitoring.Controllers
     [ApiController]
     public class UserProjectPermissionsController : ControllerBase
     {
-        private readonly IUserProjectPermissionsRepository _iUsersProjectPermissionsRepository;
+        private readonly IUserProjectPermissionsRepository _userProjectPermissionsRepository;
+        private readonly IMapper _mapper;
 
-        public UserProjectPermissionsController(IUserProjectPermissionsRepository userProjectPermissionsRepository)
+        public UserProjectPermissionsController(IUserProjectPermissionsRepository userProjectPermissionsRepository, Mapper mapper)
         {
-            _iUsersProjectPermissionsRepository = userProjectPermissionsRepository;
+            _userProjectPermissionsRepository = userProjectPermissionsRepository;
+            _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<UserProjectPermission>>> GetAllUserProjectPermissions()
-        {
-            List<UserProjectPermission> userProjectPermissions = await _iUsersProjectPermissionsRepository.GetAll();
-
-            if (userProjectPermissions == null)
-                return BadRequest();
-
-            return Ok(userProjectPermissions);
-        }
 
         // GET: api/UserProjectPermission/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<UserProjectPermission>>> GetUserProjectPermissions(int id)
+        public async Task<IActionResult> GetUserProjectPermissions(int id)
         {
-            List<UserProjectPermission> userProjectPermissions = await _iUsersProjectPermissionsRepository.GetById(id);
+            UserProjectPermission userProjectPermissions = await _userProjectPermissionsRepository.GetById(id);
 
             if (userProjectPermissions == null)
                 return NotFound();
 
-            return Ok(userProjectPermissions);
+            var userProjectPermissionDto = _mapper.Map<UserProjectPermission, UserProjectPermissionDto>(userProjectPermissions);
+
+            return Ok(userProjectPermissionDto);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserProjectPermissions()
+        {
+            List<UserProjectPermission> userProjectPermissions = await _userProjectPermissionsRepository.GetAll();
+
+            if (userProjectPermissions == null)
+                return BadRequest();
+
+            var userProjectPermissionDtoList = _mapper.Map<List<UserProjectPermission>, List<UserProjectPermissionDto>>(userProjectPermissions);
+
+            return Ok(userProjectPermissionDtoList);
         }
 
         // POST: api/UserProjectPermission
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] UserProjectPermissionDto userProjectPermissionDto)
         {
+            UserProjectPermission userProjectPermission = _mapper.Map<UserProjectPermissionDto, UserProjectPermission>(userProjectPermissionDto);
+            int result = await _userProjectPermissionsRepository.Create(userProjectPermission);
+
+            if (result == 0)
+                return UnprocessableEntity();
+
+            return Ok();
         }
 
         // PUT: api/UserProjectPermission/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] UserProjectPermissionDto userProjectPermissionDto)
         {
+            UserProjectPermission userProjectPermission = _mapper.Map<UserProjectPermissionDto, UserProjectPermission>(userProjectPermissionDto);
+            bool success = await _userProjectPermissionsRepository.Update(userProjectPermission);
+
+            if (!success)
+                return UnprocessableEntity();
+
+            return Ok();
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            bool success = await _userProjectPermissionsRepository.Delete(id);
+
+            if (!success)
+                return NotFound();
+
+            return Ok();
         }
     }
 }

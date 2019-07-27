@@ -7,9 +7,9 @@ namespace Models.Interfaces
     {
         Task<Sensor> GetById(int id);
         Task<List<Sensor>> GetAll();
-        Task Create(Sensor sensor);
-        Task Delete(int id);
-        Task Update(Sensor sensor);
+        Task<int> Create(Sensor sensor);
+        Task<bool> Delete(int id);
+        Task<bool> Update(Sensor sensor);
 
     }
 }

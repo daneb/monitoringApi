@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -16,10 +18,12 @@ namespace Monitoring.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly IProjectsRepository _projectsRepository;
+        private readonly IMapper _mapper;
 
-        public ProjectsController(IProjectsRepository projectsRepository)
+        public ProjectsController(IProjectsRepository projectsRepository, IMapper mapper)
         {
             _projectsRepository = projectsRepository;
+            _mapper = mapper;
         }
 
         // GET: api/Project
@@ -31,7 +35,9 @@ namespace Monitoring.Controllers
             if (projects == null)
                 return BadRequest();
 
-            return Ok(projects);
+            var projectDtoList = _mapper.Map<List<Project>, List<ProjectDto>>(projects);
+
+            return Ok(projectDtoList);
         }
 
         // GET: api/Project/5
@@ -43,25 +49,48 @@ namespace Monitoring.Controllers
             if (project == null)
                 return NotFound();
 
+            var projectDto = _mapper.Map<Project, ProjectDto>(project);
+
             return Ok(project);
         }
 
         // POST: api/Project
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] ProjectDto projectDto)
         {
+            Project project = _mapper.Map<ProjectDto, Project>(projectDto);
+            int result = await _projectsRepository.Create(project);
+
+            if (result == 0)
+                return UnprocessableEntity();
+
+            return Ok();
         }
 
         // PUT: api/Project/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] ProjectDto projectDto)
         {
+            Project project = _mapper.Map<ProjectDto, Project>(projectDto);
+            bool success = await _projectsRepository.Update(project);
+
+            if (!success)
+                return UnprocessableEntity();
+
+            return Ok();
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            bool success = await _projectsRepository.Delete(id);
+
+            if (!success)
+                return NotFound();
+
+            return Ok();
+
         }
     }
 }

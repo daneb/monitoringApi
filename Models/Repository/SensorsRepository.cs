@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using Dapper.Contrib.Extensions;
 using Microsoft.Extensions.Configuration;
 using Models.Interfaces;
 
@@ -43,24 +44,35 @@ namespace Models.Repository
             }
         }
 
-        public async Task Create(Sensor sensor)
+        public async Task<int> Create(Sensor sensor)
         {
-            throw new System.NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                conn.Open();
+                var result = await conn.InsertAsync<Sensor>(sensor);
+                return result;
+            }
         }
 
-        public async Task Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new System.NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                conn.Open();
+                var result = await conn.DeleteAsync(new Sensor { Id = id });
+                return result;
+            }
         }
 
-        public async Task Update(Sensor sensor)
+        public async Task<bool> Update(Sensor sensor)
         {
-            throw new System.NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                conn.Open();
+                var result = await conn.UpdateAsync<Sensor>(sensor);
+                return result;
+            }
         }
 
-        public Task<List<Sensor>> GetByName(string Name)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

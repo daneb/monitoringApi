@@ -7,8 +7,8 @@ namespace Models.Interfaces
     {
         Task<Project> GetById(int id);
         Task<List<Project>> GetAll();
-        Task Create(Project project);
-        Task Delete(int id);
-        Task Update(Project project);
+        Task<int> Create(Project project);
+        Task<bool> Delete(int id);
+        Task<bool> Update(Project project);
     }
 }

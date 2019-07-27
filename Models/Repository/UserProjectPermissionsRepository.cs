@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using Dapper.Contrib.Extensions;
 using Microsoft.Extensions.Configuration;
 using Models.Interfaces;
 
@@ -20,14 +21,14 @@ namespace Models.Repository
 
         public IDbConnection Connection => new SqlConnection(_config.GetConnectionString("Monitoring"));
 
-        public async Task<List<UserProjectPermission>> GetById(int id)
+        public async Task<UserProjectPermission> GetById(int id)
         {
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "SELECT ID, UserId, ProjectId, PermissionContext, Permission from UserProjectPermissions where ID = @ID";
                 conn.Open();
                 var result = await conn.QueryAsync<UserProjectPermission>(sQuery, new { ID = id });
-                return result.AsList();
+                return result.FirstOrDefault();
             }
         }
 
@@ -42,19 +43,34 @@ namespace Models.Repository
             }
         }
 
-        public async Task Create(UserProjectPermission projects)
+        public async Task<int> Create(UserProjectPermission userProjectPermission)
         {
-            throw new System.NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                conn.Open();
+                var result = await conn.InsertAsync<UserProjectPermission>(userProjectPermission);
+                return result;
+            }
         }
 
-        public async Task Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new System.NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                conn.Open();
+                var result = await conn.DeleteAsync(new UserProjectPermission { Id = id });
+                return result;
+            }
         }
 
-        public async Task Update(UserProjectPermission projects)
+        public async Task<bool> Update(UserProjectPermission userProjectPermission)
         {
-            throw new System.NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                conn.Open();
+                var result = await conn.UpdateAsync<UserProjectPermission>(userProjectPermission);
+                return result;
+            }
         }
     }
 }

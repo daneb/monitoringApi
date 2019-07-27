@@ -13,10 +13,15 @@ namespace Monitoring
         public MappingProfile()
         {
             CreateMap<SensorTypeDto, SensorType>();
+            CreateMap<SensorType, SensorTypeDto>();
             CreateMap<ProjectDto, Project>();
+            CreateMap<Project, ProjectDto>();
             CreateMap<SensorDto, Sensor>();
+            CreateMap<Sensor, SensorDto>();
             CreateMap<UserDto, User>();
+            CreateMap<User, UserDto>();
             CreateMap<UserProjectPermissionDto, UserProjectPermission>();
+            CreateMap<UserProjectPermission, UserProjectPermissionDto>();
         }
     }
 }

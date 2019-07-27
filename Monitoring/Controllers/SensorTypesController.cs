@@ -33,7 +33,9 @@ namespace Monitoring.Controllers
             if (sensorTypes == null)
                 return BadRequest();
 
-            return Ok(sensorTypes);
+            var sensorTypesDtoList = _mapper.Map<List<SensorType>, List<SensorTypeDto>>(sensorTypes);
+
+            return Ok(sensorTypesDtoList);
         }
 
         // GET: api/SensorType/5
@@ -45,7 +47,10 @@ namespace Monitoring.Controllers
             if (sensorType == null)
                 return NotFound();
 
-            return Ok(sensorType);
+            var sensorTypeDto = _mapper.Map<SensorType, SensorTypeDto>(sensorType);
+
+            return Ok(sensorTypeDto);
+
         }
 
         // POST: api/SensorType

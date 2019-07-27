@@ -5,10 +5,11 @@ namespace Models.Interfaces
 {
     public interface IUserProjectPermissionsRepository
     {
-        Task<List<UserProjectPermission>> GetById(int id);
-        Task Create(UserProjectPermission projects);
-        Task Delete(int id);
-        Task Update(UserProjectPermission projects);
+        Task<UserProjectPermission> GetById(int id);
         Task<List<UserProjectPermission>> GetAll();
+        Task<int> Create(UserProjectPermission projects);
+        Task<bool> Delete(int id);
+        Task<bool> Update(UserProjectPermission projects);
+
     }
 }
