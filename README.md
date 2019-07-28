@@ -8,4 +8,5 @@
 5. Setting The Swagger Responses
 6. Setting the Required fields for the consumer
 7. Secrets not hardcored or in configuration providers
+8. Filters for Authorization (to keep it DRY)
 

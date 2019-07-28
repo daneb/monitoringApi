@@ -11,6 +11,7 @@ namespace Models.Interfaces
         Task<int> Create(UserProjectPermission projects);
         Task<bool> Delete(int id);
         Task<bool> Update(UserProjectPermission projects);
+        Task<bool> CanAccess(int userId, int sensorId, Permissions permissions);
 
     }
 }

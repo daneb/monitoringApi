@@ -84,5 +84,23 @@ namespace Models.Repository
                 return result;
             }
         }
+
+        public async Task<bool> CanAccess(int userId, int sensorId, Permissions permissions)
+        {
+            string requestedPermission = permissions.ToString();
+
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = @"SELECT s.Name, p.Name from Sensors s
+                                    JOIN Projects p
+                                        ON s.ProjectId = p.Id
+                                    RIGHT JOIN UserProjectPermissions upp
+                                    ON p.Id = upp.ProjectId
+                                WHERE s.id = @ID and upp.UserID = @UserID and upp.Permission = @Permission and upp.PermissionContext = 'Sensor'";
+                conn.Open();
+                var result = await conn.QueryAsync<UserProjectPermission>(sQuery, new { ID = sensorId, UserId = userId, Permission = requestedPermission });
+                return result.Any();
+            }
+        }
     }
 }
