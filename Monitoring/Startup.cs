@@ -16,6 +16,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Models.Interfaces;
 using Models.Repository;
+using Services;
+using Services.Interfaces;
 
 namespace Monitoring
 {
@@ -37,6 +39,7 @@ namespace Monitoring
             services.AddTransient<IProjectsRepository>(provider => new ProjectsRepository(Configuration));
             services.AddTransient<IUserProjectPermissionsRepository>(provider => new UserProjectPermissionsRepository(Configuration));
             services.AddTransient<IUsersRepository>(provider => new UsersRepository(Configuration));
+            services.AddTransient<IUserPasswordHashProvider>(provider => new UserPasswordHashProvider());
 
             // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>
