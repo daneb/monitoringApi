@@ -14,7 +14,7 @@ using Services.Interfaces;
 
 namespace Monitoring.Controllers
 {
-
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -29,6 +29,21 @@ namespace Monitoring.Controllers
             _mapper = mapper;
             _userPasswordHashProvider = userPasswordHashProvider;
         }
+
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody]UserDto userDto)
+        {
+            var user  = await _usersRepository.Authenticate(userDto.Email, userDto.Password);
+
+            if (user == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            var userWithTokenDto = _mapper.Map<User, UserDto>(user);
+
+            return Ok(userWithTokenDto);
+        }
+
 
         // GET: api/User
         [HttpGet]
