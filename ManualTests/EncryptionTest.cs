@@ -1,4 +1,6 @@
-﻿using Services;
+﻿using Microsoft.Extensions.Configuration;
+using Models.Repository;
+using Services;
 using Xunit;
 
 namespace Integration
@@ -9,8 +11,9 @@ namespace Integration
         public void SuccessGeneratingHash()
         {
             string expected = "enc:428TI2eXK7c=";
-            UserPasswordHashProvider userPasswordHashProvider = new UserPasswordHashProvider();
-            var result = userPasswordHashProvider.Hash("123");
+            IConfiguration config = null;
+            AuthenticationService authenticationService = new AuthenticationService(new UsersRepository(config), new UserProjectPermissionsRepository(config));
+            var result = authenticationService.Hash("123");
 
             Assert.Equal(expected, result);
         }
