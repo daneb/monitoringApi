@@ -5,24 +5,29 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using AutoMapper;
 using DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Interfaces;
+using Services.Interfaces;
 
 namespace Monitoring.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly IUsersRepository _usersRepository;
         private readonly IMapper _mapper;
+        private readonly IUserPasswordHashProvider _userPasswordHashProvider;
 
-        public UsersController(IUsersRepository iUsersRepository, IMapper mapper)
+        public UsersController(IUsersRepository usersRepository, IMapper mapper, IUserPasswordHashProvider userPasswordHashProvider)
         {
-            _usersRepository = iUsersRepository;
+            _usersRepository = usersRepository;
             _mapper = mapper;
+            _userPasswordHashProvider = userPasswordHashProvider;
         }
 
         // GET: api/User
@@ -57,7 +62,13 @@ namespace Monitoring.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UserDto userDto)
         {
+            // Map and create password Hash
             User user = _mapper.Map<UserDto, User>(userDto);
+
+            if (userDto.Password == "")
+                return BadRequest();
+
+            user.PasswordHash = _userPasswordHashProvider.Hash(userDto.Password);
             int result = await _usersRepository.Create(user);
 
             if (result == 0)
@@ -71,6 +82,11 @@ namespace Monitoring.Controllers
         public async Task<IActionResult> Put(int id, [FromBody] UserDto userDto)
         {
             User user = _mapper.Map<UserDto, User>(userDto);
+
+            if (userDto.Password == "")
+                return BadRequest();
+
+            user.PasswordHash = _userPasswordHashProvider.Hash(userDto.Password);
             bool success = await _usersRepository.Update(user);
 
             if (!success)
