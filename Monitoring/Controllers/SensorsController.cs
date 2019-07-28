@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Models;
@@ -12,6 +13,7 @@ using Models.Repository;
 
 namespace Monitoring.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SensorsController : ControllerBase
