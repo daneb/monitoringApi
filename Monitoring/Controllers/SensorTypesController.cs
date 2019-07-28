@@ -55,6 +55,7 @@ namespace Monitoring.Controllers
 
         }
 
+        [Authorize(Roles = "Administrator")]
         // POST: api/SensorType
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SensorTypeDto sensorTypeDto)
@@ -68,6 +69,7 @@ namespace Monitoring.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Administrator")]
         // PUT: api/SensorType/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] SensorTypeDto sensorTypeDto)
@@ -81,6 +83,7 @@ namespace Monitoring.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Administrator")]
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

@@ -73,6 +73,7 @@ namespace Monitoring.Controllers
             return Ok(userDto);
         }
 
+        [Authorize(Roles = "Administrator")]
         // POST: api/User
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UserDto userDto)
@@ -92,6 +93,7 @@ namespace Monitoring.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Administrator")]
         // PUT: api/User/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] UserDto userDto)
@@ -110,7 +112,8 @@ namespace Monitoring.Controllers
             return Ok();
         }
 
-        // DELETE: api/ApiWithActions/5
+        [Authorize(Roles = "Administrator")]
+        // DELETE: api/User/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
