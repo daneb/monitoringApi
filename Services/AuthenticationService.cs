@@ -36,6 +36,8 @@ namespace Services
             if (expectedPassword != user.PasswordHash)
                 return null;
 
+            var listOfPermissions = await _userProjectPermissionsRepository.GetByUserId(user.Id);
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secret);
 
@@ -44,7 +46,7 @@ namespace Services
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.IsAdmin ? "Administrator" : "Reader")
+                    new Claim(ClaimTypes.Role, user.IsAdmin ? "Administrator" : "Reader"),
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

@@ -32,6 +32,18 @@ namespace Models.Repository
             }
         }
 
+        public async Task<List<UserProjectPermission>> GetByUserId(int userId)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "SELECT ID, UserId, ProjectId, PermissionContext, Permission from UserProjectPermissions where UserId = @UserId";
+                conn.Open();
+                var result = await conn.QueryAsync<UserProjectPermission>(sQuery, new { UserId = userId });
+                return result.AsList();
+            }
+
+        }
+
         public async Task<List<UserProjectPermission>> GetAll()
         {
             using (IDbConnection conn = Connection)

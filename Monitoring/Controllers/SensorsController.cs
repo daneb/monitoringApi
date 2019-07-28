@@ -27,7 +27,6 @@ namespace Monitoring.Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Policy = "CanViewSensor")]
         //GET api/sensors
         [HttpGet]
         public async Task<IActionResult> GetSensors()
