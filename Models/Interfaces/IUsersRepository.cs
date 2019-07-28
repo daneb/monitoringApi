@@ -10,5 +10,6 @@ namespace Models.Interfaces
         Task<int> Create(User user);
         Task<bool> Delete(int id);
         Task<bool> Update(User user);
+        Task<User> Authenticate(string email, string password);
     }
 }

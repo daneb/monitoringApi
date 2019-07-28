@@ -8,16 +8,19 @@ using Dapper;
 using Dapper.Contrib.Extensions;
 using Microsoft.Extensions.Configuration;
 using Models.Interfaces;
+using Services.Interfaces;
 
 namespace Models.Repository
 {
     public class UsersRepository : IUsersRepository
     {
         private readonly IConfiguration _config;
+        private readonly IUserPasswordHashProvider _userPasswordHashProvider;
 
-        public UsersRepository(IConfiguration config)
+        public UsersRepository(IConfiguration config, IUserPasswordHashProvider iUserPasswordHashProvider)
         {
             _config = config;
+            _userPasswordHashProvider = iUserPasswordHashProvider;
         }
 
         public IDbConnection Connection => new SqlConnection(_config.GetConnectionString("Monitoring"));
@@ -29,6 +32,17 @@ namespace Models.Repository
                 string sQuery = "SELECT ID, Email, PasswordHash, Name, Surname, IsAdmin from Users where ID = @ID";
                 conn.Open();
                 var result = await conn.QueryAsync<User>(sQuery, new { ID = id });
+                return result.FirstOrDefault();
+            }
+        }
+
+        public async Task<User> GetByEmail(string email)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "SELECT ID, Email, PasswordHash, Name, Surname, IsAdmin from Users where Email = @email";
+                conn.Open();
+                var result = await conn.QueryAsync<User>(sQuery, new { Email = email });
                 return result.FirstOrDefault();
             }
         }
@@ -72,6 +86,21 @@ namespace Models.Repository
                 var result = await conn.UpdateAsync<User>(user);
                 return result;
             }
+        }
+
+        public async Task<User> Authenticate(string email, string password)
+        {
+            var user = await GetByEmail(email);
+
+            if (user == null || password == "")
+                return null;
+
+            var expectedPassword = _userPasswordHashProvider.Hash(password);
+
+            if (expectedPassword != user.PasswordHash)
+                return null;
+
+            return user;
         }
     }
 }

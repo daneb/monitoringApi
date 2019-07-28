@@ -38,7 +38,7 @@ namespace Monitoring
             services.AddTransient<ISensorTypesRepository>(provider => new SensorTypesRepository(Configuration));
             services.AddTransient<IProjectsRepository>(provider => new ProjectsRepository(Configuration));
             services.AddTransient<IUserProjectPermissionsRepository>(provider => new UserProjectPermissionsRepository(Configuration));
-            services.AddTransient<IUsersRepository>(provider => new UsersRepository(Configuration));
+            services.AddTransient<IUsersRepository>(provider => new UsersRepository(Configuration, new UserPasswordHashProvider()));
             services.AddTransient<IUserPasswordHashProvider>(provider => new UserPasswordHashProvider());
 
             // Auto Mapper Configurations
