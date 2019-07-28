@@ -7,9 +7,10 @@ namespace Models.Interfaces
     {
         Task<User> GetById(int id);
         Task<List<User>> GetAll();
+        Task<User> GetByEmail(string email);
         Task<int> Create(User user);
         Task<bool> Delete(int id);
         Task<bool> Update(User user);
-        Task<User> Authenticate(string email, string password);
+       
     }
 }

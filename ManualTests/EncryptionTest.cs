@@ -9,8 +9,8 @@ namespace Integration
         public void SuccessGeneratingHash()
         {
             string expected = "enc:428TI2eXK7c=";
-            UserPasswordHashProvider userPasswordHashProvider = new UserPasswordHashProvider();
-            var result = userPasswordHashProvider.Hash("123");
+            UserPasswordHashService userPasswordHashService = new UserPasswordHashService();
+            var result = userPasswordHashService.Hash("123");
 
             Assert.Equal(expected, result);
         }

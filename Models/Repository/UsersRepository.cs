@@ -13,19 +13,16 @@ using Dapper.Contrib.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models.Interfaces;
-using Services.Interfaces;
 
 namespace Models.Repository
 {
     public class UsersRepository : IUsersRepository
     {
         private readonly IConfiguration _config;
-        private readonly IUserPasswordHashProvider _userPasswordHashProvider;
 
-        public UsersRepository(IConfiguration config, IUserPasswordHashProvider iUserPasswordHashProvider)
+        public UsersRepository(IConfiguration config)
         {
             _config = config;
-            _userPasswordHashProvider = iUserPasswordHashProvider;
         }
 
         public IDbConnection Connection => new SqlConnection(_config.GetConnectionString("Monitoring"));
@@ -93,35 +90,5 @@ namespace Models.Repository
             }
         }
 
-        public async Task<User> Authenticate(string email, string password)
-        {
-            var user = await GetByEmail(email);
-
-            if (user == null || password == "")
-                return null;
-
-            var expectedPassword = _userPasswordHashProvider.Hash(password);
-
-            if (expectedPassword != user.PasswordHash)
-                return null;
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_config.GetSection("Authentication")["Secret"]);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, user.IsAdmin ? "Administrator" : "Reader"),
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            user.Token = tokenHandler.WriteToken(token);
-
-            return user;
-        }
     }
 }

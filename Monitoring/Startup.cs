@@ -38,8 +38,8 @@ namespace Monitoring
             services.AddTransient<ISensorTypesRepository>(provider => new SensorTypesRepository(Configuration));
             services.AddTransient<IProjectsRepository>(provider => new ProjectsRepository(Configuration));
             services.AddTransient<IUserProjectPermissionsRepository>(provider => new UserProjectPermissionsRepository(Configuration));
-            services.AddTransient<IUsersRepository>(provider => new UsersRepository(Configuration, new UserPasswordHashProvider()));
-            services.AddSingleton<IUserPasswordHashProvider>(provider => new UserPasswordHashProvider());
+            services.AddTransient<IUsersRepository>(provider => new UsersRepository(Configuration));
+            services.AddSingleton<IAuthenticationService>(provider => new AuthenticationService(new UsersRepository(Configuration), new UserProjectPermissionsRepository(Configuration)));
 
             // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>
@@ -51,6 +51,16 @@ namespace Monitoring
             services.AddSingleton(mapper);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CanViewSensor", policy =>
+                    policy.RequireAssertion(context =>
+                        context.User.HasClaim(c =>
+                            c.Properties["PermissionContext"] == "Sensor" &&
+                            c.Properties["CanRead"] == "View"
+                    )));
+            });
 
             // JWT
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("Authentication")["Secret"]);

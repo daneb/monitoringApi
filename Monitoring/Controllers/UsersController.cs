@@ -8,6 +8,7 @@ using DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Models;
 using Models.Interfaces;
 using Services.Interfaces;
@@ -21,20 +22,23 @@ namespace Monitoring.Controllers
     {
         private readonly IUsersRepository _usersRepository;
         private readonly IMapper _mapper;
-        private readonly IUserPasswordHashProvider _userPasswordHashProvider;
+        private readonly IAuthenticationService _authenticationService;
+        private readonly IConfiguration _configuration;
 
-        public UsersController(IUsersRepository usersRepository, IMapper mapper, IUserPasswordHashProvider userPasswordHashProvider)
+        public UsersController(IConfiguration config, IUsersRepository usersRepository, IMapper mapper, IAuthenticationService authenticationService)
         {
             _usersRepository = usersRepository;
             _mapper = mapper;
-            _userPasswordHashProvider = userPasswordHashProvider;
+            _authenticationService = authenticationService;
+            _configuration = config;
         }
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody]UserDto userDto)
         {
-            var user  = await _usersRepository.Authenticate(userDto.Email, userDto.Password);
+            var secret = _configuration.GetSection("Authentication")["Secret"];
+            var user  = await _authenticationService.Authenticate(userDto.Email, userDto.Password, secret);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -84,7 +88,7 @@ namespace Monitoring.Controllers
             if (userDto.Password == "")
                 return BadRequest();
 
-            user.PasswordHash = _userPasswordHashProvider.Hash(userDto.Password);
+            user.PasswordHash = _authenticationService.Hash(userDto.Password);
             int result = await _usersRepository.Create(user);
 
             if (result == 0)
@@ -103,7 +107,7 @@ namespace Monitoring.Controllers
             if (userDto.Password == "")
                 return BadRequest();
 
-            user.PasswordHash = _userPasswordHashProvider.Hash(userDto.Password);
+            user.PasswordHash = _authenticationService.Hash(userDto.Password);
             bool success = await _usersRepository.Update(user);
 
             if (!success)
