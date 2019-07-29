@@ -21,7 +21,7 @@ namespace Services
             _cache = cache;
         }
 
-        public async Task<bool> IsAuthorized(int userId, int sensorId, Permissions requestedPermissions)
+        public async Task<bool> IsAuthorizedBySensorId(int userId, int sensorId, Permissions requestedPermissions)
         {
             string permission = requestedPermissions.ToString();
 
@@ -29,6 +29,33 @@ namespace Services
                 await _cache.GetOrAddAsync("SensorPermissions",() => _permissionsRepository.GetPermissionsWithSensorAndProjectId());
 
             bool authorized = permissions.Any(x => x.SensorId == sensorId && x.UserId == userId && x.Permission == permission);
+
+            return authorized;
+        }
+
+        public async Task<bool> IsAuthorizedByProjectId(int userId, int projectId, Permissions requestedPermissions)
+        {
+            string permission = requestedPermissions.ToString();
+
+            List<SensorUserProjectPermissions> permissions =
+                await _cache.GetOrAddAsync("SensorPermissions", () => _permissionsRepository.GetPermissionsWithSensorAndProjectId());
+
+            bool authorized = permissions.Any(x => x.UserId == userId && x.ProjectId == projectId && x.Permission == permission);
+
+            return authorized;
+        }
+
+        public async Task<bool> IsAuthorizedBySensorIdAndProjectId(int userId, int sensorId, int projectId, Permissions requestedPermissions)
+        {
+            string permission = requestedPermissions.ToString();
+
+            List<SensorUserProjectPermissions> permissions =
+                await _cache.GetOrAddAsync("SensorPermissions", () => _permissionsRepository.GetPermissionsWithSensorAndProjectId());
+
+            bool authorized = permissions.Any(x => x.UserId == userId &&
+                                                   x.ProjectId == projectId &&
+                                                   x.SensorId == sensorId &&
+                                                   x.Permission == permission);
 
             return authorized;
         }

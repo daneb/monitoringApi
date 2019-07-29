@@ -21,10 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Servic
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{BA041F50-4EA0-423D-AD3C-CBF929ECF6E9}"
 	ProjectSection(SolutionItems) = preProject
+		FileStatsByDay.png = FileStatsByDay.png
 		README.md = README.md
+		StatsByCode.png = StatsByCode.png
+		StatsByLang.png = StatsByLang.png
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monitoring.Tests", "Monitoring.Tests\Monitoring.Tests.csproj", "{E7451F13-6EC8-4672-96D5-93B4264F2375}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monitoring.Tests", "Monitoring.Tests\Monitoring.Tests.csproj", "{E7451F13-6EC8-4672-96D5-93B4264F2375}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

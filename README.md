@@ -1,8 +1,8 @@
 # Monitoring API
 
 ### Didn't get too
-1. Better Exception Handling
-2. Tests For Models
+1. Better Exception Handling (Log Exceptions to Sentry and all models)
+2. Tests For Models and Services
 3. HTTP Responses that are more appropriate (201 CREATED)
 4. Return the ID after insertion (identity)
 5. Setting The Swagger Responses

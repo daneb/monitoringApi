@@ -56,7 +56,7 @@ namespace Monitoring.Controllers
             if (userId == null)
                 return BadRequest();
 
-            bool found = await _authorizationService.IsAuthorized(int.Parse(userId), id, Permissions.View);
+            bool found = await _authorizationService.IsAuthorizedBySensorId(int.Parse(userId), id, Permissions.View);
             if (!found)
                 return Unauthorized();
 
@@ -76,7 +76,7 @@ namespace Monitoring.Controllers
             if (userId == null)
                 return BadRequest();
 
-            bool found = await _authorizationService.IsAuthorized(int.Parse(userId), sensorDto.Id, Permissions.View);
+            bool found = await _authorizationService.IsAuthorizedByProjectId(int.Parse(userId), sensorDto.ProjectId, Permissions.Create);
             if (!found)
                 return Unauthorized();
 
@@ -97,7 +97,7 @@ namespace Monitoring.Controllers
 
             if (userId == null)
                 return BadRequest();
-            bool found = await _authorizationService.IsAuthorized(int.Parse(userId), sensorDto.Id, Permissions.View);
+            bool found = await _authorizationService.IsAuthorizedBySensorIdAndProjectId(int.Parse(userId), sensorDto.Id, sensorDto.ProjectId, Permissions.Update);
 
             if (!found)
                 return Unauthorized();
@@ -118,7 +118,7 @@ namespace Monitoring.Controllers
 
             if (userId == null)
                 return BadRequest();
-            bool found = await _authorizationService.IsAuthorized(int.Parse(userId), id, Permissions.View);
+            bool found = await _authorizationService.IsAuthorizedBySensorId(int.Parse(userId), id, Permissions.Delete);
 
             if (!found)
                 return Unauthorized();

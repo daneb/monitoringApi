@@ -6,6 +6,7 @@ namespace Models
     {
         public int SensorId { get; set; }
         public int UserId { get; set; }
+        public int ProjectId { get; set; }
         public string Permission { get; set; }
     }
 }

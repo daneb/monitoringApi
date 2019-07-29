@@ -91,15 +91,15 @@ namespace Models.Repository
             using (IDbConnection conn = Connection)
             {
                 string sQuery = @"SELECT
-                                  s.Id as SensorId,
                                   upp.UserId,
+                                  s.ProjectId,
+                                  s.Id as SensorId,
                                   upp.Permission
-                                FROM
+                                from
                                   Sensors s
-                                JOIN Projects p ON
-                                  s.ProjectId = p.Id
-                                RIGHT JOIN UserProjectPermissions upp ON
-                                  p.Id = upp.ProjectId";
+                                JOIN UserProjectPermissions upp ON
+                                  s.ProjectId = upp.ProjectId
+                                  order by userId, sensorId, ProjectId";
                 conn.Open();
                 var result = await conn.QueryAsync<SensorUserProjectPermissions>(sQuery);
                 return result.AsList();

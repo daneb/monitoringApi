@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
@@ -46,32 +47,56 @@ namespace Models.Repository
 
         public async Task<int> Create(Sensor sensor)
         {
-            using (IDbConnection conn = Connection)
+            try
             {
-                conn.Open();
-                var result = await conn.InsertAsync<Sensor>(sensor);
-                return result;
+                using (IDbConnection conn = Connection)
+                {
+                    conn.Open();
+                    var result = await conn.InsertAsync<Sensor>(sensor);
+                    return result;
+                }
             }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+           
         }
 
         public async Task<bool> Delete(int id)
         {
-            using (IDbConnection conn = Connection)
+            try
             {
-                conn.Open();
-                var result = await conn.DeleteAsync(new Sensor { Id = id });
-                return result;
+                using (IDbConnection conn = Connection)
+                {
+                    conn.Open();
+                    var result = await conn.DeleteAsync(new Sensor { Id = id });
+                    return result;
+                }
             }
+            catch (Exception e)
+            {
+                return false;
+            }
+
         }
 
         public async Task<bool> Update(Sensor sensor)
         {
-            using (IDbConnection conn = Connection)
+            try
             {
-                conn.Open();
-                var result = await conn.UpdateAsync<Sensor>(sensor);
-                return result;
+                using (IDbConnection conn = Connection)
+                {
+                    conn.Open();
+                    var result = await conn.UpdateAsync<Sensor>(sensor);
+                    return result;
+                }
             }
+            catch (Exception e)
+            {
+                return false;
+            }
+
         }
 
     }
