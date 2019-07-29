@@ -58,6 +58,7 @@ namespace Models.Repository
             }
             catch (Exception ex)
             {
+                // Please forgive me for throwing away exceptions ;)
                 return 0;
             }
            
@@ -76,6 +77,7 @@ namespace Models.Repository
             }
             catch (Exception e)
             {
+                // Please forgive me for throwing away exceptions ;)
                 return false;
             }
 
@@ -94,6 +96,7 @@ namespace Models.Repository
             }
             catch (Exception e)
             {
+                // Please forgive me for throwing away exceptions ;)
                 return false;
             }
 

@@ -20,7 +20,7 @@ namespace Monitoring.Controllers
         private readonly IUserProjectPermissionsRepository _userProjectPermissionsRepository;
         private readonly IMapper _mapper;
 
-        public UserProjectPermissionsController(IUserProjectPermissionsRepository userProjectPermissionsRepository, Mapper mapper)
+        public UserProjectPermissionsController(IUserProjectPermissionsRepository userProjectPermissionsRepository, IMapper mapper)
         {
             _userProjectPermissionsRepository = userProjectPermissionsRepository;
             _mapper = mapper;
