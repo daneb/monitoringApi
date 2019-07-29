@@ -20,7 +20,7 @@
 - 26th = 2h42m
 - 27th = 5h53m
 - 28th = 7h31m
-- 29th = 4h31m
+- 29th = 6h31m
 
 #### By Language
 ![By Language](https://github.com/daneb/monitoringApi/blob/master/StatsByLang.png)
