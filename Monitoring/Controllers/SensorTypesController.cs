@@ -66,13 +66,13 @@ namespace Monitoring.Controllers
             if (result == 0)
                 return UnprocessableEntity();
 
-            return Ok();
+            return Ok(result);
         }
 
         [Authorize(Roles = "Administrator")]
         // PUT: api/SensorType/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] SensorTypeDto sensorTypeDto)
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] SensorTypeDto sensorTypeDto)
         {
             SensorType sensorType = _mapper.Map<SensorTypeDto, SensorType>(sensorTypeDto);
             bool success = await _sensorTypesTypeRepository.Update(sensorType);
