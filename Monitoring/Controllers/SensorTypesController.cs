@@ -17,12 +17,12 @@ namespace Monitoring.Controllers
     [ApiController]
     public class SensorTypesController : ControllerBase
     {
-        private readonly ISensorTypesRepository _sensorTypesTypeRepository;
+        private readonly ISensorTypesRepository _sensorTypesRepository;
         private readonly IMapper _mapper;
 
         public SensorTypesController(ISensorTypesRepository iSensorTypesRepository, IMapper mapper)
         {
-            _sensorTypesTypeRepository = iSensorTypesRepository;
+            _sensorTypesRepository = iSensorTypesRepository;
             _mapper = mapper;
         }
 
@@ -30,7 +30,7 @@ namespace Monitoring.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSensorTypes()
         {
-            var sensorTypes = await _sensorTypesTypeRepository.GetAll();
+            var sensorTypes = await _sensorTypesRepository.GetAll();
 
             if (sensorTypes == null)
                 return BadRequest();
@@ -44,7 +44,7 @@ namespace Monitoring.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSensorTypeById(int id)
         {
-            var sensorType = await _sensorTypesTypeRepository.GetById(id);
+            var sensorType = await _sensorTypesRepository.GetById(id);
 
             if (sensorType == null)
                 return NotFound();
@@ -61,7 +61,7 @@ namespace Monitoring.Controllers
         public async Task<IActionResult> Post([FromBody] SensorTypeDto sensorTypeDto)
         {
             SensorType sensorType = _mapper.Map<SensorTypeDto,SensorType>(sensorTypeDto);
-            int result = await _sensorTypesTypeRepository.Create(sensorType);
+            int result = await _sensorTypesRepository.Create(sensorType);
 
             if (result == 0)
                 return UnprocessableEntity();
@@ -75,7 +75,7 @@ namespace Monitoring.Controllers
         public async Task<IActionResult> Put([FromBody] SensorTypeDto sensorTypeDto)
         {
             SensorType sensorType = _mapper.Map<SensorTypeDto, SensorType>(sensorTypeDto);
-            bool success = await _sensorTypesTypeRepository.Update(sensorType);
+            bool success = await _sensorTypesRepository.Update(sensorType);
 
             if (!success)
                 return UnprocessableEntity();
@@ -88,7 +88,7 @@ namespace Monitoring.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            bool success = await _sensorTypesTypeRepository.Delete(id);
+            bool success = await _sensorTypesRepository.Delete(id);
 
             if (!success)
                 return NotFound();
