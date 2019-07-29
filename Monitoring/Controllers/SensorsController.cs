@@ -34,6 +34,7 @@ namespace Monitoring.Controllers
         }
 
         //GET api/sensors
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
         public async Task<IActionResult> GetSensors()
         {
