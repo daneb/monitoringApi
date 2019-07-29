@@ -1,6 +1,6 @@
 # Monitoring API
 
-### TODO
+### Didn't get too
 1. Better Exception Handling
 2. Tests For Models
 3. HTTP Responses that are more appropriate (201 CREATED)
@@ -9,4 +9,6 @@
 6. Setting the Required fields for the consumer
 7. Secrets not hardcored or in configuration providers
 8. Filters for Authorization (to keep it DRY)
+9. Bleeding of SensorPermissions into UserProjectPermissionsRepository
+10. Azure Deploy
 

@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using LazyCache;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,7 +44,7 @@ namespace Monitoring
             services.AddTransient<IUsersRepository>(provider => new UsersRepository(Configuration));
             services.AddScoped<IAuthenticationService>(provider => new AuthenticationService(new UsersRepository(Configuration), new UserProjectPermissionsRepository(Configuration)));
             services.AddScoped<ISensorAuthorizationService>(provider =>
-                new SensorAuthorizationService(new UserProjectPermissionsRepository(Configuration)));
+                new SensorAuthorizationService(new UserProjectPermissionsRepository(Configuration), new CachingService()));
 
             // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>

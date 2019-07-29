@@ -85,21 +85,24 @@ namespace Models.Repository
             }
         }
 
-        public async Task<bool> CanAccess(int userId, int sensorId, Permissions permissions)
+        public async Task<List<SensorUserProjectPermissions>> GetPermissionsWithSensorAndProjectId()
         {
-            string requestedPermission = permissions.ToString();
 
             using (IDbConnection conn = Connection)
             {
-                string sQuery = @"SELECT s.Name, p.Name from Sensors s
-                                    JOIN Projects p
-                                        ON s.ProjectId = p.Id
-                                    RIGHT JOIN UserProjectPermissions upp
-                                    ON p.Id = upp.ProjectId
-                                WHERE s.id = @ID and upp.UserID = @UserID and upp.Permission = @Permission and upp.PermissionContext = 'Sensor'";
+                string sQuery = @"SELECT
+                                  s.Id as SensorId,
+                                  upp.UserId,
+                                  upp.Permission
+                                FROM
+                                  Sensors s
+                                JOIN Projects p ON
+                                  s.ProjectId = p.Id
+                                RIGHT JOIN UserProjectPermissions upp ON
+                                  p.Id = upp.ProjectId";
                 conn.Open();
-                var result = await conn.QueryAsync<UserProjectPermission>(sQuery, new { ID = sensorId, UserId = userId, Permission = requestedPermission });
-                return result.Any();
+                var result = await conn.QueryAsync<SensorUserProjectPermissions>(sQuery);
+                return result.AsList();
             }
         }
     }
