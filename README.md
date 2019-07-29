@@ -24,3 +24,6 @@
 
 #### By Language
 ![By Language](https://github.com/daneb/monitoringApi/blob/master/StatsByLang.png)
+
+#### By Code
+![By Code](https://github.com/daneb/monitoringApi/blob/master/StatsByCode.png)
