@@ -42,8 +42,8 @@ namespace Monitoring
             services.AddTransient<IProjectsRepository>(provider => new ProjectsRepository(Configuration));
             services.AddTransient<IUserProjectPermissionsRepository>(provider => new UserProjectPermissionsRepository(Configuration));
             services.AddTransient<IUsersRepository>(provider => new UsersRepository(Configuration));
-            services.AddScoped<IAuthenticationService>(provider => new AuthenticationService(new UsersRepository(Configuration), new UserProjectPermissionsRepository(Configuration)));
-            services.AddScoped<ISensorAuthorizationService>(provider =>
+            services.AddTransient<IAuthenticationService>(provider => new AuthenticationService(new UsersRepository(Configuration), new UserProjectPermissionsRepository(Configuration)));
+            services.AddTransient<ISensorAuthorizationService>(provider =>
                 new SensorAuthorizationService(new UserProjectPermissionsRepository(Configuration), new CachingService()));
 
             // Auto Mapper Configurations
