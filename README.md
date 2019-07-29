@@ -10,7 +10,7 @@
 7. Secrets not hardcored or in configuration providers
 8. Action Filters for Authorization or Advanced Policies (to keep it DRY)
 9. Azure Deploy
-10. Didn't apply any authorization to UserProjectPermissions table. Was unclear.
+10. Didn't apply any authorization to UserProjectPermissions table.
 
 ### Statistics
 
